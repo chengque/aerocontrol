@@ -66,6 +66,7 @@ class UAV:
         arming_client=rospy.ServiceProxy(self.uav_id+"/mavros/cmd/arming",CommandBool)
         pub=rospy.Publisher(self.uav_id+"/mavros/setpoint_attitude/att_throttle",Float64,queue_size=10)
         pub1=rospy.Publisher(self.uav_id+"/mavros/setpoint_attitude/attitude",PoseStamped,queue_size=10)
+        pubmop=rospy.Publisher(self.uav_id+"/mavros/mocap/attitude",PoseStamped,queue_size=10)
         #pub=rospy.Publisher("/uav2/mavros/setpoint_position/local",PoseStamped,queue_size=10)
         arm_cmd=CommandBoolRequest()
         arm_cmd.value=True
@@ -82,11 +83,14 @@ class UAV:
                 break
             pub.publish(self.throttle)
             pub1.publish(self.attitude)
+            pubmop.publish(self.attitude)
+            #rate.sleep()
+            #continue
             #rospy.loginfo(current_state.mode)
             if((self.current_state.mode!="OFFBOARD") and (rospy.get_rostime().secs-last_request>2)):
                 rospy.loginfo(self.current_state.mode)
-                if(set_mode_client.call(offb_set_mode).success):
-                #if(set_mode_client.call(offb_set_mode)==True and offb_set_mode.response.success==True):
+                #if(set_mode_client.call(offb_set_mode).success):
+                if(set_mode_client.call(offb_set_mode)==True and offb_set_mode.response.success==True):
                     rospy.loginfo(self.uav_id+" offbrd enabled")
                 last_request=rospy.get_rostime().secs
             else:
