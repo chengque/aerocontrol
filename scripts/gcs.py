@@ -47,7 +47,7 @@ class UAV:
                 msg.x=0
                 msg.y=0
             else:
-                msg.z=-100
+                msg.z=-10
                 msg.x=0
                 msg.y=0
             rospy.loginfo("Position Ref:[%.2f,%.2f,%.2f]"%(msg.x,msg.y,msg.z))
