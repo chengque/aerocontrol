@@ -28,26 +28,19 @@ class UAV:
             lst=datetime.datetime.now()
             
             if(now-init_request<3):
-                msg.z=min(tm/2,0.6)
+                msg.z=min(tm/6,0.5)
                 msg.x=0
                 msg.y=0
-            elif(tm<6):
-                msg.z=0.6
-                msg.x=min((tm-3)/2,0.5)
-            elif(tm<18.56):
-                msg.z=0.6
-                msg.x=0.5*math.cos(0.5*(tm-6))
-                msg.y=0.5*math.sin(0.5*(tm-6))
-            elif(tm<21):
-                msg.z=0.6
-                msg.x=max(0.5-(tm-18.56)/2,0)
+            elif(tm<15):
+                msg.z=0.5
+                msg.x=0
                 msg.y=0
-            elif(tm<25):
-                msg.z=min(21.6-tm,0.6)
+            elif(tm<16):
+                msg.z=min((16-tm)/2,0.5)
                 msg.x=0
                 msg.y=0
             else:
-                msg.z=-1
+                msg.z=-0.5
                 msg.x=0
                 msg.y=0
             rospy.loginfo("Position Ref:[%.2f,%.2f,%.2f]"%(msg.x,msg.y,msg.z))
